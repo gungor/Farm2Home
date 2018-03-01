@@ -20,25 +20,37 @@
   margin-bottom: 0px;
 }
 
-.App-Menu{
-  background-color: #47741A;
-  color: #EEEEEE;
-  height: 50px;
-  width: 100%;
+.navbar {
+  margin-bottom: 0px;
+  float: left;
 }
 
-.App-Menu  ul {
-  list-style: none;
-  background-color: #47741A;
-  margin: 0px;
-  padding-top: 10px;
-  padding-left: 60px;
-}
-.App-Menu  ul li {
-  float: left;
-  text-align: left;
-  margin-right: 50px;
+.navbar-default .navbar-nav>li>a {
+  color: #47741A;
   font-family: Futura;
+}
+
+.navbar-default .container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-left: 30px;
+}
+
+.logout {
+  float: right;
+  margin-right: 50px;
+  height: 100%;
+  margin-top: 15px;
+
+}
+
+.menu-container{
+  height:auto;
+}
+
+.clearFloat{
+  clear: both;
+
 }
 
 

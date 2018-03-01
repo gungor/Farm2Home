@@ -1,53 +1,50 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React, {Component} from 'react';
 import './App.css';
 
-import Navbar from 'react-bootstrap/lib/Navbar';
-import Nav from 'react-bootstrap/lib/Nav';
-import NavItem from 'react-bootstrap/lib/NavItem';
-import MenuItem from 'react-bootstrap/lib/MenuItem';
-import NavDropdown from 'react-bootstrap/lib/NavDropdown';
-
-
+import {Navbar, Nav, NavItem} from 'react-bootstrap/lib/';
 
 
 class App extends Component {
-  render() {
-    return (
+    render() {
+        return (
 
 
-      <div className="App">
+            <div className="App">
 
-          <Navbar>
-              <Navbar.Header>
-                  <Navbar.Brand>
-                      <a href="#home">React-Bootstrap</a>
-                  </Navbar.Brand>
-              </Navbar.Header>
-              <Nav>
-                  <NavItem eventKey={1} href="#">
-                      Link
-                  </NavItem>
-                  <NavItem eventKey={2} href="#">
-                      Link
-                  </NavItem>
-                  <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-                      <MenuItem eventKey={3.1}>Action</MenuItem>
-                      <MenuItem eventKey={3.2}>Another action</MenuItem>
-                      <MenuItem eventKey={3.3}>Something else here</MenuItem>
-                      <MenuItem divider />
-                      <MenuItem eventKey={3.4}>Separated link</MenuItem>
-                  </NavDropdown>
-              </Nav>
-          </Navbar>;
+                <div className="menu-container">
+                    <Navbar>
+                        <Nav>
+                            <NavItem eventKey={1} href="#">
+                                Sat
+                            </NavItem>
+                            <NavItem eventKey={2} href="#">
+                                Ürünlerim
+                            </NavItem>
+                            <NavItem eventKey={3} href="#">
+                                Mesaj
+                            </NavItem>
+                            <NavItem eventKey={4} href="#">
+                                Ürün İsteyenler
+                            </NavItem>
+                        </Nav>
 
-        <header className="App-header">
-          <h1 className="App-title">Tarla Pazar</h1>
-        </header>
+                    </Navbar>
 
-      </div>
-    );
-  }
+                    <div className="logout">
+
+                        <span>User</span>|<a href='#'>Çıkış</a>
+
+                    </div>
+                    <div className="clearFloat"></div>
+                </div>
+
+                <header className="App-header">
+                    <h1 className="App-title">...</h1>
+                </header>
+
+            </div>
+        );
+    }
 }
 
 export default App;
