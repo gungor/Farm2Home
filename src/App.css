@@ -1,0 +1,45 @@
+.App {
+
+}
+
+.App-logo {
+  height: 80px;
+}
+
+.App-header {
+  background-color: #47741A;
+  height: 120px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 3em;
+  margin-left: 30px;
+  font-family: Futura;
+  margin-bottom: 0px;
+}
+
+.App-Menu{
+  background-color: #47741A;
+  color: #EEEEEE;
+  height: 50px;
+  width: 100%;
+}
+
+.App-Menu  ul {
+  list-style: none;
+  background-color: #47741A;
+  margin: 0px;
+  padding-top: 10px;
+  padding-left: 60px;
+}
+.App-Menu  ul li {
+  float: left;
+  text-align: left;
+  margin-right: 50px;
+  font-family: Futura;
+}
+
+
+
