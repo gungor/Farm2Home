@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import './App.css';
 
 import {Navbar, Nav, NavItem} from 'react-bootstrap/lib/';
+import DataList from './components/DataList'
+
 
 
 class App extends Component {
@@ -41,6 +43,15 @@ class App extends Component {
                 <header className="App-header">
                     <h1 className="App-title">...</h1>
                 </header>
+
+                <div className='page-header' >En Yeniler</div>
+                <div className='table-container'>
+                    <DataList></DataList>
+                </div>
+
+
+
+
 
             </div>
         );
