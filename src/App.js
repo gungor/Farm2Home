@@ -32,7 +32,7 @@ class App extends Component {
 
                     <div className="logout">
 
-                        <span>User</span>|<a href='#'>Çıkış</a>
+                        <span>User</span> | <a href='#'>Çıkış</a>
 
                     </div>
                     <div className="clearFloat"></div>

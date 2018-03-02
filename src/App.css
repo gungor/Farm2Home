@@ -2,10 +2,6 @@
 
 }
 
-.App-logo {
-  height: 80px;
-}
-
 .App-header {
   background-color: #47741A;
   height: 120px;
@@ -16,18 +12,20 @@
 .App-title {
   font-size: 3em;
   margin-left: 30px;
-  font-family: Futura;
+  font-family: Avenir;
   margin-bottom: 0px;
 }
 
 .navbar {
   margin-bottom: 0px;
   float: left;
+  border: none;
+  background-color: #FFFFFF;
 }
 
 .navbar-default .navbar-nav>li>a {
   color: #47741A;
-  font-family: Futura;
+  margin-right: 20px;
 }
 
 .navbar-default .container {
@@ -40,17 +38,17 @@
   float: right;
   margin-right: 50px;
   height: 100%;
-  margin-top: 15px;
-
+  margin-top: 10px;
 }
 
 .menu-container{
   height:auto;
+  font-family: Avenir ;
+  font-size: 18px;
 }
 
 .clearFloat{
   clear: both;
-
 }
 
 
