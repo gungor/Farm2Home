@@ -9,8 +9,7 @@
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.1",
-    "react-table": "^6.8.0",
-    "reactable": "^0.14.1"
+    "react-table": "^6.8.0"
   },
   "scripts": {
     "start": "react-scripts start",

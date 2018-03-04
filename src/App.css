@@ -3,53 +3,50 @@
 }
 
 .App-header {
-  background-color: #47741A;
-  height: 120px;
-  padding: 20px;
-  color: white;
+    background-color: #47741A;
+    height: 120px;
+    padding: 20px;
+    color: white;
 }
 
 .App-title {
-  font-size: 3em;
-  margin-left: 30px;
-  font-family: Avenir;
-  margin-bottom: 0px;
+    font-size: 3em;
+    margin-left: 30px;
+    font-family: Avenir;
+    margin-bottom: 0px;
+}
+
+.navbar-font{
+    font-family: Avenir;
+    font-size: 18px;
 }
 
 .navbar {
-  margin-bottom: 0px;
-  float: left;
-  border: none;
-  background-color: #FFFFFF;
+    margin-bottom: 0px;
+    float: left;
+    border: none;
+    background-color: #FFFFFF;
 }
 
-.navbar-default .navbar-nav>li>a {
-  color: #47741A;
-  margin-right: 20px;
+.navbar-default .navbar-nav > li > a {
+    color: #47741A;
+    margin-right: 20px;
 }
 
 .navbar-default .container {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-left: 30px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-left: 30px;
 }
 
 .logout {
-  float: right;
-  margin-right: 50px;
-  height: 100%;
-  margin-top: 10px;
+    margin-right: 20px;
+    height: 100%;
+    margin-top: 15px;
+    color: #47741A;
 }
 
-.menu-container{
-  height:auto;
-  font-family: Avenir ;
-  font-size: 18px;
-}
 
-.clearFloat{
-  clear: both;
-}
 
 .ReactTable .rt-tr{
   align-items: center;
@@ -57,6 +54,14 @@
 
 .ReactTable .rt-tbody .rt-td{
   text-align: center;
+
+}
+
+.ReactTable .rt-thead.-header{
+    box-shadow: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    background-color: #71a83a;
+    color: white;
 }
 
 .table-container{
@@ -66,11 +71,11 @@
   font-family: Avenir ;
 }
 
-.page-header{
+.site_page-header{
   font-family: Avenir ;
   font-size: 24px;
   color: #47741A;
-  margin-left: 30px;
+  margin: 40px 0 20px 30px;
 }
 
 
