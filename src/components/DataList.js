@@ -9,12 +9,10 @@ const requestData = (pageSize, page, sorted, filtered) => {
     console.log( 'requestData called' )
     console.log( sorted )
 
-
-
     return new Promise((resolve, reject) => {
 
 
-        fetch('http://localhost:8080',{
+        fetch('http://localhost:8080/items',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -22,7 +20,9 @@ const requestData = (pageSize, page, sorted, filtered) => {
             body:  JSON.stringify({
                 start: page,
                 pageSize : pageSize,
-                sortedColumn : sorted[0].id
+                sortedColumn : sorted[0].id,
+                desc: sorted[0].desc,
+                itemType: 'product'
             })
         }).then(response => response.json()).then(function (result) {
 
@@ -127,7 +127,7 @@ class DataList extends Component {
                            onFetchData={this.fetchData} // Request new data when things change
                            defaultSorted={[
                                {
-                                   id: "age",
+                                   id: null,
                                    desc: true
                                }
                            ]}
