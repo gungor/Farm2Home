@@ -4,10 +4,10 @@ import _ from "lodash";
 require('react-table/react-table.css');
 
 
-const requestData = (pageSize, page, sorted, filtered) => {
+const requestData = (pageSize, page, sorted, filtered, itemName) => {
 
     console.log( 'requestData called' )
-    console.log( sorted )
+    console.log( itemName )
 
     return new Promise((resolve, reject) => {
 
@@ -22,13 +22,13 @@ const requestData = (pageSize, page, sorted, filtered) => {
                 pageSize : pageSize,
                 sortedColumn : sorted[0].id,
                 desc: sorted[0].desc,
-                itemType: 'product'
+                itemType: itemName,
+                clientObject: null
             })
         }).then(response => response.json()).then(function (result) {
 
             let filteredData = result.productList;
 
-            // You can use the filters in your request, but you are responsible for applying them.
             if (filtered.length) {
                 filteredData = filtered.reduce((filteredSoFar, nextFilter) => {
                     return filteredSoFar.filter(row => {
@@ -36,7 +36,7 @@ const requestData = (pageSize, page, sorted, filtered) => {
                     });
                 }, filteredData);
             }
-            // You can also use the sorting in your request, but again, you are responsible for applying it.
+
             const sortedData = _.orderBy(
                 filteredData,
                 sorted.map(sort => {
@@ -76,24 +76,28 @@ const requestData = (pageSize, page, sorted, filtered) => {
 
 class DataList extends Component {
 
-    constructor() {
-        super();
+
+    constructor(props) {
+        super(props);
         this.state = {
             data: [],
             pages: null,
-            loading: true
+            loading: true,
+            itemName: props.itemName
         };
         this.fetchData = this.fetchData.bind(this);
     }
 
     fetchData(state, instance) {
-        this.setState({ loading: true });
+
+        this.setState({ loading: true, itemName : this.state.itemName });
 
         requestData(
             state.pageSize,
             state.page,
             state.sorted,
-            state.filtered
+            state.filtered,
+            this.state.itemName
         ).then(res => {
             this.setState({
                 data: res.rows,
@@ -127,7 +131,7 @@ class DataList extends Component {
                            onFetchData={this.fetchData} // Request new data when things change
                            defaultSorted={[
                                {
-                                   id: null,
+                                   id: 'date',
                                    desc: true
                                }
                            ]}

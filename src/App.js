@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { BrowserRouter, Link, Route } from 'react-router-dom';
 import './App.css';
 
 import {Navbar, Nav, NavItem} from 'react-bootstrap/lib/';
@@ -48,16 +49,20 @@ class App extends Component {
                     <h1 className="App-title">...</h1>
                 </header>
 
-                <div className='site_page-header'>En Yeni Ürünler</div>
-                <div className='table-container'>
-                    <DataList></DataList>
-                </div>
-
+                <BrowserRouter>
+                    <div>
+                        <Route exact path='/' component={NewProductPage} />
+                        <Route path='/sell' component={MyProductPage} />
+                    </div>
+                </BrowserRouter>
 
             </div>
         );
     }
 }
 
+
+const NewProductPage = () => <div><div className='site_page-header'>...</div><div className='table-container'><DataList itemName="product" /></div></div>
+const MyProductPage = () => <div><div className='site_page-header'>Ürünlerim</div><div className='table-container'><DataList itemName="product" /></div></div>
 
 export default App;
