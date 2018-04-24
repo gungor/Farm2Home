@@ -14,7 +14,15 @@
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <script>
+        window.onLoadCallback = function(){
+            gapi.client.init({
+                clientId: '786520830414-7dvg55iasj1gqosej6mrk41jlegfdkci.apps.googleusercontent.com',
+                scope: 'profile'
+            })
+        }
+    </script>
 
     <title>React App</title>
   </head>

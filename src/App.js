@@ -20,7 +20,10 @@ const fakeAuth = {
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
-        fakeAuth.isAuthenticated === true
+
+
+
+        isSignedIn()
             ? <Component {...props} />
             : <Redirect to={{
                 pathname: '/login',
@@ -31,9 +34,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 const gapiPromise = function(){
     return new Promise( function (resolve) {
-        window.onLoadCallback = function(){
+            console.log('resolved')
             resolve(gapi);
-        }
+
     })
 }
 
@@ -41,6 +44,7 @@ class Login extends React.Component {
     state = {
         redirectToReferrer: false
     }
+
     login = () => {
         console.log('login called')
         fakeAuth.authenticate(() => {
@@ -52,23 +56,6 @@ class Login extends React.Component {
 
     googleSuccess(googleUser){
         console.log('google success called')
-        this.login()
-    }
-
-    componentDidMount() {
-        gapiPromise().then(function(){
-            gapi.signin2.render('g-signin2', {
-                'scope': 'https://www.googleapis.com/auth/plus.login',
-                'width': 200,
-                'height': 50,
-                'longtitle': true,
-                'theme': 'dark',
-                'onsuccess': this.googleSuccess,
-                'data-onsuccess': this.googleSuccess
-            });
-        });
-
-
     }
 
     render() {
@@ -85,16 +72,56 @@ class Login extends React.Component {
     }
 }
 
+function isSignedIn() {
+    if( gapi.auth2 === undefined )
+        return false
+    else{
+        return gapi.auth2.getAuthInstance().isSignedIn.get()
+    }
+}
+
+
 class App extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            gapiReady: false
+        }
+
+
+    }
+
+    componentDidMount(){
+        gapiPromise().then(function () {
+
+            gapi.load('client:auth2', function () {
+                console.log('promise 1')
+                gapi.client.init({
+                    clientId: '786520830414-7dvg55iasj1gqosej6mrk41jlegfdkci.apps.googleusercontent.com',
+                    scope: 'profile'
+                }).then(function () {
+                    this.setState({gapiReady: true})
+                    console.log(gapi.auth2.getAuthInstance().isSignedIn.get())
+                    console.log('adasda')
+                }.bind(this))
+
+
+            }.bind(this))
+        }.bind(this))
+    }
 
 
     render() {
 
+        const newProductRouter = <PrivateRoute exact path='/' component={NewProductPage}/>
+        const myProductRouter = <PrivateRoute path='/sell' component={MyProductPage}/>
+
         return (
 
 
-            <div className="App">
 
+            <div className="App">
                 <div className="container-fluid navbar-font">
                     <div className="row justify-content-md-center">
                         <div className="col-sm-10">
@@ -134,17 +161,14 @@ class App extends Component {
                 <BrowserRouter>
 
                     <div>
-                        <PrivateRoute exact path='/' component={NewProductPage}/>
-                        <PrivateRoute path='/sell' component={MyProductPage}/>
+                        {newProductRouter}
+                        {myProductRouter}
                         <Route path="/login" component={Login}/>
                     </div>
 
                 </BrowserRouter>
-
-
-
             </div>
-        );
+        )
     }
 
 
