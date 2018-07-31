@@ -18,25 +18,13 @@ const fakeAuth = {
     }
 }
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route {...rest} render={(props) => (
-
-
-
-        isSignedIn()
-            ? <Component {...props} />
-            : <Redirect to={{
-                pathname: '/login',
-                state: { from: props.location }
-            }} />
-    )} />
-)
+const gapiObject = {
+    loading : true
+}
 
 const gapiPromise = function(){
     return new Promise( function (resolve) {
-            console.log('resolved')
-            resolve(gapi);
-
+        resolve(gapi);
     })
 }
 
@@ -54,11 +42,24 @@ class Login extends React.Component {
         })
     }
 
+    componentDidMount(){
+
+        gapi.signin2.render('my-signin2', {
+            'scope': 'https://www.googleapis.com/auth/plus.login',
+            'width': 200,
+            'height': 50,
+            'longtitle': true,
+            'theme': 'light'
+        });
+    }
+
     googleSuccess(googleUser){
         console.log('google success called')
     }
 
     render() {
+        console.log('login rendered' + gapi.signin2)
+
         const { from } = this.props.location.state || { from: { pathname: '/' } }
         const { redirectToReferrer } = this.state
 
@@ -67,18 +68,23 @@ class Login extends React.Component {
         }
 
         return (
-            <div className="g-signin2" onClick={this.login} data-onsuccess="googleSuccess"></div>
+            <div id="my-signin2"></div>
+
         )
     }
 }
 
 function isSignedIn() {
+
+    console.log('isSignedIn called')
+
     if( gapi.auth2 === undefined )
         return false
     else{
         return gapi.auth2.getAuthInstance().isSignedIn.get()
     }
 }
+
 
 
 class App extends Component {
@@ -90,37 +96,41 @@ class App extends Component {
         }
 
 
-    }
+            gapiPromise().then(function () {
 
-    componentDidMount(){
-        gapiPromise().then(function () {
+                gapi.load('client:auth2', function () {
+                    console.log('promise 1')
+                    gapi.client.init({
+                        clientId: '786520830414-7dvg55iasj1gqosej6mrk41jlegfdkci.apps.googleusercontent.com',
+                        scope: 'profile'
+                    }).then(function () {
+                        console.log(gapi.auth2.getAuthInstance().isSignedIn.get())
+                        console.log('gapiReady')
+                        gapiObject.loading = false
+                        this.setState({gapiReady: true})
+                    }.bind(this))
 
-            gapi.load('client:auth2', function () {
-                console.log('promise 1')
-                gapi.client.init({
-                    clientId: '786520830414-7dvg55iasj1gqosej6mrk41jlegfdkci.apps.googleusercontent.com',
-                    scope: 'profile'
-                }).then(function () {
-                    this.setState({gapiReady: true})
-                    console.log(gapi.auth2.getAuthInstance().isSignedIn.get())
-                    console.log('adasda')
+
                 }.bind(this))
-
-
             }.bind(this))
-        }.bind(this))
+
     }
+
+
 
 
     render() {
 
-        const newProductRouter = <PrivateRoute exact path='/' component={NewProductPage}/>
-        const myProductRouter = <PrivateRoute path='/sell' component={MyProductPage}/>
+        console.log('rerendered' + isSignedIn())
+
+
+
+
+        let newProductRouter = <PrivateRoute exact path='/' component={NewProductPage}  />
+        let myProductRouter = <PrivateRoute path='/sell' component={MyProductPage} />
+
 
         return (
-
-
-
             <div className="App">
                 <div className="container-fluid navbar-font">
                     <div className="row justify-content-md-center">
@@ -174,6 +184,17 @@ class App extends Component {
 
 }
 
+let PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={(props) => (
+        !gapiObject.loading ? ( isSignedIn()
+                ? <Component {...props} />
+                : <Redirect to={{
+                    pathname: '/login',
+                    state: { from: props.location }
+                }} />
+        ) : 'dsfdfdd'
+    )} />
+)
 
 const NewProductPage = () => <div>
     <div className='site_page-header'>...</div>
