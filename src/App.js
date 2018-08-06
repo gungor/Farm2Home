@@ -5,19 +5,6 @@ import './App.css';
 import {Navbar, Nav, NavItem} from 'react-bootstrap/lib/';
 import DataList from './components/DataList'
 
-const fakeAuth = {
-    isAuthenticated: false,
-    authenticate(cb) {
-        this.isAuthenticated = true
-        console.log('authenticated')
-        setTimeout(cb, 100)
-    },
-    signout(cb) {
-        this.isAuthenticated = false
-        setTimeout(cb, 100)
-    }
-}
-
 const gapiObject = {
     loading: true
 }
@@ -28,7 +15,7 @@ const gapiPromise = function () {
     })
 }
 
-
+let oauthToken
 
 class Login extends React.Component {
 
@@ -41,7 +28,7 @@ class Login extends React.Component {
     }
 
     signinChanged (val) {
-        console.log('signinChanged')
+        console.log('signinChanged'+ val)
         this.setState({loggedIn: gapi.auth2.getAuthInstance().isSignedIn.get()})
     };
 
@@ -56,7 +43,7 @@ class Login extends React.Component {
                     scope: 'profile'
                 }).then(function () {
                     this.setState({loggedIn: gapi.auth2.getAuthInstance().isSignedIn.get()})
-                    gapi.auth2.getAuthInstance().isSignedIn.listen(this.signinChanged);
+                    gapi.auth2.getAuthInstance().isSignedIn.listen(this.signinChanged)
 
                     if( ! this.state.loggedIn ){
                         gapi.signin2.render('my-signin2', {
@@ -67,10 +54,6 @@ class Login extends React.Component {
                             'theme': 'light'
                         });
                     }
-
-
-
-
                 }.bind(this))
 
 
@@ -82,7 +65,6 @@ class Login extends React.Component {
         const {from} = this.props.location.state || {from: {pathname: '/'}}
 
         if (this.state.loggedIn ) {
-            console.log('logged In redirect')
             return (<Redirect to={from}/>)
         }else{
             return (<div id="my-signin2"></div>)
@@ -106,10 +88,10 @@ class App extends Component {
 
     constructor(props) {
         super(props)
+        this.signinChanged = this.signinChanged.bind(this)
         this.state = {
             gapiReady: false
         }
-
 
         gapiPromise().then(function () {
 
@@ -121,6 +103,8 @@ class App extends Component {
                 }).then(function () {
                     console.log(gapi.auth2.getAuthInstance().isSignedIn.get())
                     console.log('gapiReady')
+                    oauthToken =  gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token
+
                     gapiObject.loading = false
                     this.setState({gapiReady: true})
                 }.bind(this))
@@ -129,6 +113,10 @@ class App extends Component {
             }.bind(this))
         }.bind(this))
 
+    }
+
+    signinChanged (val) {
+        console.log('signinChanged'+ val)
     }
 
 
@@ -206,11 +194,11 @@ let PrivateRoute = ({component: Component, ...rest}) => (
 
 const NewProductPage = () => <div>
     <div className='site_page-header'>...</div>
-    <div className='table-container'><DataList itemName="product"/></div>
+    <div className='table-container'><DataList itemName="product" oauthToken={oauthToken} /></div>
 </div>
 const MyProductPage = () => <div>
     <div className='site_page-header'>Ürünlerim</div>
-    <div className='table-container'><DataList itemName="product"/></div>
+    <div className='table-container'><DataList itemName="product" oauthToken={oauthToken} /></div>
 </div>
 
 

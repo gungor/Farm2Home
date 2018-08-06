@@ -4,10 +4,13 @@ import _ from "lodash";
 require('react-table/react-table.css');
 
 
-const requestData = (pageSize, page, sorted, filtered, itemName) => {
+const requestData = (pageSize, page, sorted, filtered, itemName, oauthToken) => {
 
     console.log( 'requestData called' )
     console.log( itemName )
+    console.log( 'oauth token : '+ oauthToken )
+
+    let bearer = 'Bearer '+oauthToken
 
     return new Promise((resolve, reject) => {
 
@@ -15,6 +18,7 @@ const requestData = (pageSize, page, sorted, filtered, itemName) => {
         fetch('http://localhost:8080/items',{
             method: 'POST',
             headers: {
+                'Authorization' : bearer,
                 'Content-Type': 'application/json'
             },
             body:  JSON.stringify({
@@ -83,7 +87,8 @@ class DataList extends Component {
             data: [],
             pages: null,
             loading: true,
-            itemName: props.itemName
+            itemName: props.itemName,
+            oauthToken: props.oauthToken
         };
         this.fetchData = this.fetchData.bind(this);
     }
@@ -97,7 +102,8 @@ class DataList extends Component {
             state.page,
             state.sorted,
             state.filtered,
-            this.state.itemName
+            this.state.itemName,
+            this.state.oauthToken
         ).then(res => {
             this.setState({
                 data: res.rows,
