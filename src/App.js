@@ -21,71 +21,27 @@ class Login extends React.Component {
 
     constructor(props) {
         super(props)
-        this.signinChanged = this.signinChanged.bind(this)
         this.clickSignin = this.clickSignin.bind(this)
-        this.state = {
-            loggedIn: false
-        }
+        this.state = { loggedIn: false }
     }
-
-    signinChanged (val) {
-        console.log('signinChanged'+ val)
-        this.setState({loggedIn: gapi.auth2.getAuthInstance().isSignedIn.get()})
-    };
 
     clickSignin(){
         gapi.auth2.getAuthInstance().grantOfflineAccess().then(function (authResult) {
             console.log( 'signInCallback' );
             console.log( authResult['code'] );
-        });
-    }
-
-    signInCallback(authResult) {
-
-        console.log( 'signInCallback' );
-        console.log( authResult['code'] );
-
-        /*
-        if (authResult['code']) {
-
-            // Hide the sign-in button now that the user is authorized, for example:
-            $('#signinButton').attr('style', 'display: none');
-
-            // Send the code to the server
-            $.ajax({
-                type: 'POST',
-                url: 'http://example.com/storeauthcode',
-                // Always include an `X-Requested-With` header in every AJAX request,
-                // to protect against CSRF attacks.
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                contentType: 'application/octet-stream; charset=utf-8',
-                success: function(result) {
-                    // Handle or verify the server response.
-                },
-                processData: false,
-                data: authResult['code']
-            });
-        } else {
-            // There was an error.
-        }
-        */
+            console.log( 'gapi.auth2.getAuthInstance().isSignedIn.get() : ' )
+            console.log( +gapi.auth2.getAuthInstance().isSignedIn.get() )
+            this.setState({loggedIn: gapi.auth2.getAuthInstance().isSignedIn.get()})
+        }.bind(this));
     }
 
     componentDidMount() {
-
         gapiPromise().then(function () {
-
             gapi.load('client:auth2', function () {
-                console.log('promise 1')
                 gapi.client.init({
                     clientId: '786520830414-7dvg55iasj1gqosej6mrk41jlegfdkci.apps.googleusercontent.com',
                     scope: 'profile'
                 }).then(function () {
-                    this.setState({loggedIn: gapi.auth2.getAuthInstance().isSignedIn.get()})
-                    gapi.auth2.getAuthInstance().isSignedIn.listen(this.signinChanged)
-
                     if( ! this.state.loggedIn ){
                         gapi.signin2.render('my-signin2', {
                             'scope': 'https://www.googleapis.com/auth/plus.login',
@@ -95,10 +51,7 @@ class Login extends React.Component {
                             'theme': 'light'
                         });
                     }
-
                 }.bind(this))
-
-
             }.bind(this))
         }.bind(this))
     }
@@ -116,8 +69,6 @@ class Login extends React.Component {
 
 function isSignedIn() {
 
-    console.log('isSignedIn called')
-
     if (gapi.auth2 === undefined)
         return false
     else {
@@ -131,10 +82,6 @@ class App extends Component {
 
     constructor(props) {
         super(props)
-        this.signinChanged = this.signinChanged.bind(this)
-        this.state = {
-            gapiReady: false
-        }
 
         gapiPromise().then(function () {
 
@@ -144,23 +91,12 @@ class App extends Component {
                     clientId: '786520830414-7dvg55iasj1gqosej6mrk41jlegfdkci.apps.googleusercontent.com',
                     scope: 'profile'
                 }).then(function () {
-                    console.log(gapi.auth2.getAuthInstance().isSignedIn.get())
-                    console.log('gapiReady')
-
                     gapiObject.loading = false
-                    this.setState({gapiReady: true})
+                    this.setState({})
                 }.bind(this))
-
-
             }.bind(this))
         }.bind(this))
-
     }
-
-    signinChanged (val) {
-        console.log('signinChanged'+ val)
-    }
-
 
     render() {
 
