@@ -22,6 +22,8 @@ class Login extends React.Component {
     constructor(props) {
         super(props)
         this.signinChanged = this.signinChanged.bind(this)
+        this.clickSignin = this.clickSignin.bind(this)
+        this.signInCallback = this.signInCallback.bind(this)
         this.state = {
             loggedIn: false
         }
@@ -31,6 +33,43 @@ class Login extends React.Component {
         console.log('signinChanged'+ val)
         this.setState({loggedIn: gapi.auth2.getAuthInstance().isSignedIn.get()})
     };
+
+    clickSignin(){
+        gapi.auth2.getAuthInstance().grantOfflineAccess().then(signInCallback);
+    }
+
+    signInCallback(authResult) {
+
+        console.log( 'signInCallback' );
+        console.log( authResult['code'] );
+
+        /*
+        if (authResult['code']) {
+
+            // Hide the sign-in button now that the user is authorized, for example:
+            $('#signinButton').attr('style', 'display: none');
+
+            // Send the code to the server
+            $.ajax({
+                type: 'POST',
+                url: 'http://example.com/storeauthcode',
+                // Always include an `X-Requested-With` header in every AJAX request,
+                // to protect against CSRF attacks.
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                contentType: 'application/octet-stream; charset=utf-8',
+                success: function(result) {
+                    // Handle or verify the server response.
+                },
+                processData: false,
+                data: authResult['code']
+            });
+        } else {
+            // There was an error.
+        }
+        */
+    }
 
     componentDidMount() {
 
@@ -54,6 +93,7 @@ class Login extends React.Component {
                             'theme': 'light'
                         });
                     }
+
                 }.bind(this))
 
 
@@ -67,7 +107,7 @@ class Login extends React.Component {
         if (this.state.loggedIn ) {
             return (<Redirect to={from}/>)
         }else{
-            return (<div id="my-signin2"></div>)
+            return (<div id="my-signin2" onClick={this.clickSignin} ></div>)
         }
     }
 }
@@ -82,6 +122,7 @@ function isSignedIn() {
         return gapi.auth2.getAuthInstance().isSignedIn.get()
     }
 }
+
 
 
 class App extends Component {
@@ -103,7 +144,6 @@ class App extends Component {
                 }).then(function () {
                     console.log(gapi.auth2.getAuthInstance().isSignedIn.get())
                     console.log('gapiReady')
-                    oauthToken =  gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token
 
                     gapiObject.loading = false
                     this.setState({gapiReady: true})
