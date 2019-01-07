@@ -23,7 +23,6 @@ class Login extends React.Component {
         super(props)
         this.signinChanged = this.signinChanged.bind(this)
         this.clickSignin = this.clickSignin.bind(this)
-        this.signInCallback = this.signInCallback.bind(this)
         this.state = {
             loggedIn: false
         }
@@ -35,7 +34,10 @@ class Login extends React.Component {
     };
 
     clickSignin(){
-        gapi.auth2.getAuthInstance().grantOfflineAccess().then(signInCallback);
+        gapi.auth2.getAuthInstance().grantOfflineAccess().then(function (authResult) {
+            console.log( 'signInCallback' );
+            console.log( authResult['code'] );
+        });
     }
 
     signInCallback(authResult) {
